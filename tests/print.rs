@@ -98,17 +98,17 @@ fn test_print_custom_type() -> Result<(), Box<EvalAltResult>> {
     assert_eq!(
         engine.eval::<String>(
             r#"
-                let x = [ 123, true, (), "world", new_ts() ];
+                let x = [ 123, true, null, "world", new_ts() ];
                 x.to_string()
             "#
         )?,
-        r#"[123, true, (), "world", hello: 42]"#
+        r#"[123, true, null, "world", hello: 42]"#
     );
 
     assert!(engine
         .eval::<String>(
             r#"
-                let x = #{ a:123, b:true, c:(), d:"world", e:new_ts() };
+                let x = #{ a:123, b:true, c:null, d:"world", e:new_ts() };
                 x.to_string()
             "#
         )?

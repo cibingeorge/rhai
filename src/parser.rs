@@ -292,10 +292,6 @@ fn parse_paren_expr(
     // ( ...
     settings.pos = eat_token(input, Token::LeftParen);
 
-    if match_token(input, Token::RightParen).0 {
-        return Ok(Expr::Unit(settings.pos));
-    }
-
     let expr = parse_expr(input, state, lib, settings.level_up())?;
 
     match input.next().unwrap() {
@@ -935,6 +931,7 @@ fn parse_primary(
         | Token::CharConstant(_)
         | Token::StringConstant(_)
         | Token::True
+        | Token::Null
         | Token::False => match input.next().unwrap().0 {
             Token::IntegerConstant(x) => Expr::IntegerConstant(x, settings.pos),
             Token::CharConstant(c) => Expr::CharConstant(c, settings.pos),
@@ -943,6 +940,7 @@ fn parse_primary(
             }
             Token::True => Expr::BoolConstant(true, settings.pos),
             Token::False => Expr::BoolConstant(false, settings.pos),
+            Token::Null => Expr::Unit(settings.pos),
             _ => unreachable!(),
         },
         #[cfg(not(feature = "no_float"))]

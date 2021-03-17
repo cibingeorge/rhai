@@ -209,6 +209,8 @@ pub enum Token {
     CharConstant(char),
     /// A string constant.
     StringConstant(String),
+    /// `null`
+    Null,
     /// `{`
     LeftBrace,
     /// `}`
@@ -393,6 +395,7 @@ impl Token {
             DecimalConstant(d) => d.to_string().into(),
             StringConstant(_) => "string".into(),
             CharConstant(c) => c.to_string().into(),
+            Null => "null".into(),
             Identifier(s) => s.clone().into(),
             Reserved(s) => s.clone().into(),
             Custom(s) => s.clone().into(),
@@ -510,6 +513,7 @@ impl Token {
             "." => Period,
             "#{" => MapStart,
             "=" => Equals,
+            "null" => Null,
             "true" => True,
             "false" => False,
             "let" => Let,
@@ -578,7 +582,7 @@ impl Token {
             "===" | "!==" | "->" | "<-" | ":=" | "~" | "::<" | "(*" | "*)" | "#" | "public"
             | "new" | "use" | "module" | "package" | "var" | "static" | "begin" | "end"
             | "shared" | "with" | "each" | "then" | "goto" | "unless" | "exit" | "match"
-            | "case" | "default" | "void" | "null" | "nil" | "spawn" | "thread" | "go" | "sync"
+            | "case" | "default" | "void" | "nil" | "spawn" | "thread" | "go" | "sync"
             | "async" | "await" | "yield" => Reserved(syntax.into()),
 
             KEYWORD_PRINT | KEYWORD_DEBUG | KEYWORD_TYPE_OF | KEYWORD_EVAL | KEYWORD_FN_PTR
@@ -747,7 +751,7 @@ impl Token {
             #[cfg(not(feature = "no_module"))]
             Import | Export | As => true,
 
-            True | False | Let | Const | If | Else | Do | While | Until | Loop | For | In
+            Null | True | False | Let | Const | If | Else | Do | While | Until | Loop | For | In
             | Continue | Break | Return | Throw | Try | Catch => true,
 
             _ => false,

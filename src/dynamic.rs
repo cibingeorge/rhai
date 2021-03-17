@@ -352,7 +352,7 @@ impl Dynamic {
     /// Otherwise, this call panics if the data is currently borrowed for write.
     pub fn type_name(&self) -> &'static str {
         match &self.0 {
-            Union::Unit(_, _) => "()",
+            Union::Unit(_, _) => "null",
             Union::Bool(_, _) => "bool",
             Union::Str(_, _) => "string",
             Union::Char(_, _) => "char",
@@ -431,6 +431,8 @@ pub(crate) fn map_std_type_name(name: &str) -> &str {
         "string"
     } else if name == type_name::<&str>() {
         "string"
+    } else if name == type_name::<()>() {
+        "null"
     } else if name == type_name::<FnPtr>() {
         "Fn"
     } else {
@@ -458,7 +460,7 @@ pub(crate) fn map_std_type_name(name: &str) -> &str {
 impl fmt::Display for Dynamic {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self.0 {
-            Union::Unit(_, _) => write!(f, ""),
+            Union::Unit(_, _) => write!(f, "null"),
             Union::Bool(value, _) => fmt::Display::fmt(value, f),
             Union::Str(value, _) => fmt::Display::fmt(value, f),
             Union::Char(value, _) => fmt::Display::fmt(value, f),
@@ -537,7 +539,7 @@ impl fmt::Display for Dynamic {
 impl fmt::Debug for Dynamic {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self.0 {
-            Union::Unit(value, _) => fmt::Debug::fmt(value, f),
+            Union::Unit(value, _) => f.write_str("null"),
             Union::Bool(value, _) => fmt::Debug::fmt(value, f),
             Union::Str(value, _) => fmt::Debug::fmt(value, f),
             Union::Char(value, _) => fmt::Debug::fmt(value, f),

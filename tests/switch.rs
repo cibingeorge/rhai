@@ -7,11 +7,11 @@ fn test_switch() -> Result<(), Box<EvalAltResult>> {
     scope.push("x", 42 as INT);
 
     assert_eq!(
-        engine.eval_with_scope::<bool>(&mut scope, "switch x { 1 => (), 2 => 'a', 42 => true }")?,
+        engine.eval_with_scope::<bool>(&mut scope, "switch x { 1 => null, 2 => 'a', 42 => true }")?,
         true
     );
     assert_eq!(
-        engine.eval_with_scope::<bool>(&mut scope, "switch x { 1 => (), 2 => 'a', _ => true }")?,
+        engine.eval_with_scope::<bool>(&mut scope, "switch x { 1 => null, 2 => 'a', _ => true }")?,
         true
     );
     assert_eq!(

@@ -168,7 +168,7 @@ fn test_arrays_map_reduce() -> Result<(), Box<EvalAltResult>> {
         engine.eval::<INT>(
             r#"
                 let x = [1, 2, 3];
-                x.reduce(|sum, v| if sum.type_of() == "()" { v * v } else { sum + v * v })
+                x.reduce(|sum, v| if sum.type_of() == "null" { v * v } else { sum + v * v })
             "#
         )?,
         14
@@ -191,7 +191,7 @@ fn test_arrays_map_reduce() -> Result<(), Box<EvalAltResult>> {
         engine.eval::<INT>(
             r#"
                 let x = [1, 2, 3];
-                x.reduce_rev(|sum, v| if sum.type_of() == "()" { v * v } else { sum + v * v })
+                x.reduce_rev(|sum, v| if sum.type_of() == "null" { v * v } else { sum + v * v })
             "#
         )?,
         14
